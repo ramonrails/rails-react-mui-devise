@@ -11,7 +11,7 @@ import { ReactSession } from 'react-client-session';
 
 const Navbar = () => {
   const currentUser = ReactSession.get("currentUserEmail");
-  console.log(`-- currentUser ${currentUser}`);
+  // console.log(`-- currentUser ${currentUser}`);
 
   function loginLink() {
     return <Button href="/login" style={{ color: '#FFF' }}>
