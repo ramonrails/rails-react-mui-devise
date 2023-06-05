@@ -6,9 +6,29 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from "react-router-dom";
+// import Link from "@mui/material/Link";
+import { ReactSession } from 'react-client-session';
 
-export default function Navbar() {
+const Navbar = () => {
+  const currentUser = ReactSession.get("currentUserEmail");
+  console.log(`-- currentUser ${currentUser}`);
+
+  function loginLink() {
+    return <Button href="/login" style={{ color: '#FFF' }}>
+      Login
+    </Button>
+  }
+
+  function logoutLink() {
+    return <Button href="/" onClick={handleLogout} style={{ color: '#FFF' }}>
+      Logout
+    </Button>
+  }
+
+  function handleLogout() {
+    ReactSession.set("currentUserEmail", "");
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,14 +43,13 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Ram on Rails
+            {currentUser || 'Ram on Rails'}
           </Typography>
-          <Button color="inherit">
-            <Link to="/logout" style={{ textDecoration: 'none', color: 'inherit' }}>Logout</Link>
-          </Button>
-
+          {currentUser ? logoutLink() : loginLink()}
         </Toolbar>
       </AppBar>
     </Box>
   );
 }
+
+export default Navbar;

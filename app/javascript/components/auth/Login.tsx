@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { ReactSession } from 'react-client-session';
 
 function Copyright(props: any) {
   return (
@@ -40,7 +41,8 @@ export default function LogIn() {
       email: data.get('email'),
       password: data.get('password'),
     }
-    console.log({ ...post_data });
+    console.log({ ...post_data })
+    console.log(`-- email ${ post_data.email }`);
     // submit to the API
     // 
     axios.post('/api/login', JSON.stringify({
@@ -51,8 +53,14 @@ export default function LogIn() {
       }
     })
       .then(function (response) {
-        console.log(response);
-        navigate("/start");
+        console.log(response.data);
+        // current user
+        // 
+        ReactSession.set("currentUserEmail", post_data.email);
+        console.log(`-- setCurrentUser ${ post_data.email } > ${ ReactSession.get("currentUserEmail") }`)
+        // navigate using react router
+        // 
+        navigate("/");
       })
       .catch(function (error) {
         console.log(error);
