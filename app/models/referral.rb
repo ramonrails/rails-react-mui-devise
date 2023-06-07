@@ -11,6 +11,11 @@ class Referral < ApplicationRecord
 
   before_validation :attach_referrer
 
+  # NOTE: we can use custom REGEX format to suit our needs
+  # but rails already uses a format internally
+  # "convention over configuration" is ensured here
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
   private
 
   def attach_referrer
